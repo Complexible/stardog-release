@@ -1,4 +1,12 @@
-# BOSH Release for stardog
+# BOSH Release for [Stardog](http://stardog.com)
+
+## TODO
+
+Work in progress; it deploys Stardog successfully using warden, but the proxy isn't integrated yet.
+
+Bugs:
+
+slf4j package in stardog-node should be configured to use log4j
 
 ## Usage
 
@@ -6,8 +14,8 @@ To use this bosh release, first upload it to your bosh:
 
 ```
 bosh target BOSH_HOST
-git clone https://github.com/cloudfoundry-community/stardog-boshrelease.git
-cd stardog-boshrelease
+git clone https://github.com/complexible/stardog-release.git
+cd stardog-release
 bosh upload release releases/stardog-1.yml
 ```
 

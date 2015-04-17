@@ -8,17 +8,12 @@ templates:
   bin/monit_debugger: bin/monit_debugger
   bin/stardog-admin: bin/stardog-admin
   config/myid.erb: config/myid
-  config/00-syslog-forward.conf.erb: config/00-syslog-forward.conf
-  config/zoo.cfg.erb: config/zoo.cfg
-  config/zookeeper-env.sh.erb: config/zookeeper-env.sh
-  config/java.env.erb: config/java.env
+  config/zookeeper.properties.erb: config/zookeeper.properties
   config/log4j.properties.erb: config/log4j.properties
-  config/configuration.xsl: config/configuration.xsl
-  data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 properties:
-  zookeeper.servers:
+  zookeeper.members:
     description: List of all zookeeper server host IP/hostnames
   zookeeper.client-port:
     description: Port at which the clients will connect to Zookeeper

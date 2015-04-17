@@ -3,6 +3,7 @@ pack.enabled=true
 # this node's IP address (or hostname), and port where other Stardog nodes are going to connect
 pack.node.address=<%= spec.networks.send(properties.networks.apps).ip %>
 # the connection string for ZooKeeper where cluster state is stored
+
 pack.cluster.address=<%= p("zookeeper.members").map { |server_host| "#{server_host}:#{p('zookeeper.client-port')}" }.join(',') %>
 # credentials used for securing ZooKeeper state
 pack.cluster.username=<%= p("stardog.cluster_username") %>

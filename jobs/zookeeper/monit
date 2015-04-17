@@ -1,5 +1,5 @@
 check process zookeeper
-  with pidfile /var/vcap/store/zookeeper/zookeeper_server.pid
+  with pidfile /var/vcap/store/zookeeper/zookeeper.pid
   start program "/var/vcap/jobs/zookeeper/bin/monit_debugger zookeeper_ctl '/var/vcap/jobs/zookeeper/bin/zookeeper_ctl start'"
   stop program "/var/vcap/jobs/zookeeper/bin/monit_debugger zookeeper_ctl '/var/vcap/jobs/zookeeper/bin/zookeeper_ctl stop'"
   group vcap

@@ -1,13 +1,1 @@
----
-java/openjdk-1.8.0_31.tar.gz:
-  object_id: 51e65ac0-b10f-4f04-9809-27bbb8079251
-  sha: 30aa164705919341963d45e0b13614d5fe6e23ec
-  size: 39148013
-slf4j-log4j12/slf4j-log4j12-1.7.7.jar:
-  object_id: e1433e16-cc77-455a-b6ae-2a59f7cec907
-  sha: 06980f8095270d95fe735e598832838276fe068a
-  size: 8870
-stardog/stardog-3.0.zip:
-  object_id: 81f47429-30a8-49b6-bfc1-e05888fd1672
-  sha: 81f449840f586fde3dad37a957fd98726a2c738d
-  size: 67145001
+--- {}

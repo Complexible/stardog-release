@@ -1,8 +1,3 @@
-#!/usr/bin/env bash
-# Copyright 2014-2015 Pivotal Software, Inc. All Rights Reserved.
-
 set -e
 
-VERSION=1.8.0_31
-
-tar xzf "${BOSH_COMPILE_TARGET}/java/openjdk-${VERSION}.tar.gz" --strip 1 -C "${BOSH_INSTALL_TARGET}"
+tar xzf "${BOSH_COMPILE_TARGET}/java/openjdk-1.8.0_40.tar.gz" --strip 1 -C "${BOSH_INSTALL_TARGET}"

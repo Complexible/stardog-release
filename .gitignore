@@ -1,5 +1,6 @@
 config/dev.yml
 config/private.yml
+config/settings.yml
 releases/*.tgz
 dev_releases
 blobs/*
@@ -14,6 +15,6 @@ blobs/*
 *~
 *#
 #*
-local*yml
 tmp
 my*.yml
+stardog-license-key.bin*

@@ -1,17 +1,51 @@
-# stardog-release
-BOSH release for http://stardog.com
+# BOSH Release for stardog
 
-Work in progress; doesn't work yet.   You can create a BOSH release and upload it but the deploy won't work quite yet.
+## Usage
 
-This is a modification of the Zookeeper BOSH release (open source), extra bits from that that are 
-unnecessary with stardog still need to be removed.
+To use this bosh release, first upload it to your bosh:
 
-Bugs:
-- properites.sh -- get rid of it
-- BOSH persistent disk /var/vcap/store should be used for $STARDOG_HOME on stardog-node jobs
-- log4j.proeprties filename typo
-- Zookeeper PIDFILE is in wrong location, currently export PIDFILE=/var/vcap/store/zookeeper/zookeeper_server.pid
-- slf4j package in stardog-node should be configured to use log4j
-- Remove "stardog-3.0" from STARDOG_INSTALL=${JOB_DIR}/packages/stardog/stardog-3.0"
+```
+bosh target BOSH_HOST
+git clone https://github.com/cloudfoundry-community/stardog-boshrelease.git
+cd stardog-boshrelease
+bosh upload release releases/stardog-1.yml
+```
 
+For [bosh-lite](https://github.com/cloudfoundry/bosh-lite), you can quickly create a deployment manifest & deploy a cluster:
 
+```
+templates/make_manifest warden
+bosh -n deploy
+```
+
+For AWS EC2, create a single VM:
+
+```
+templates/make_manifest aws-ec2
+bosh -n deploy
+```
+
+### Override security groups
+
+For AWS & Openstack, the default deployment assumes there is a `default` security group. If you wish to use a different security group(s) then you can pass in additional configuration when running `make_manifest` above.
+
+Create a file `my-networking.yml`:
+
+``` yaml
+---
+networks:
+  - name: stardog1
+    type: dynamic
+    cloud_properties:
+      security_groups:
+        - stardog
+```
+
+Where `- stardog` means you wish to use an existing security group called `stardog`.
+
+You now suffix this file path to the `make_manifest` command:
+
+```
+templates/make_manifest openstack-nova my-networking.yml
+bosh -n deploy
+```

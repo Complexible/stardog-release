@@ -22,7 +22,7 @@ chmod 755 $JOB_DIR # to access file via symlink
 # Load some bosh deployment properties into env vars
 # Try to put all ERb into data/properties.sh.erb
 # incl $NAME, $JOB_INDEX, $WEBAPP_DIR
-source $JOB_DIR/data/properties.sh
+# source $JOB_DIR/data/properties.sh
 
 source $JOB_DIR/helpers/ctl_utils.sh
 redirect_output ${output_label}
@@ -55,14 +55,14 @@ do
 done
 export TMPDIR=$TMP_DIR
 
-export JAVA_HOME="/var/vcap/packages/java6/jdk"
+export JAVA_HOME="/var/vcap/packages/java"
 export PATH=$JAVA_HOME/bin:$PATH
 
 # setup CLASSPATH for all jars/ folders within packages
-export CLASSPATH=${CLASSPATH:-''} # default to empty
-for java_jar in $(ls -d /var/vcap/packages/*/*/*.jar)
-do
-  export CLASSPATH=${java_jar}:$CLASSPATH
-done
+# export CLASSPATH=${CLASSPATH:-''} # default to empty
+# for java_jar in $(ls -d /var/vcap/packages/*/*/*.jar)
+# do
+#   export CLASSPATH=${java_jar}:$CLASSPATH
+# done
 
 echo '$PATH' $PATH

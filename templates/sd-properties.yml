@@ -1,0 +1,10 @@
+meta:
+  environment: ~
+
+properties:
+  zookeeper:
+    servers: (( merge ))
+    secret: (( merge ))
+  stardog:
+    cluster_username: ~
+    cluster_password: ~

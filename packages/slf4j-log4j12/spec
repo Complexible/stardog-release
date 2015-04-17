@@ -1,7 +1,0 @@
----
-name: slf4j-log4j12
-
-dependencies:
-
-files:
- - slf4j-log4j12/slf4j-log4j12-1.7.7.jar

@@ -1,0 +1,58 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/stardog/helpers/ctl_setup.sh 'stardog'
+
+export LANG=en_US.UTF-8
+export PIDFILE="/var/vcap/store/${JOB_NAME}/${JOB_NAME}.pid"
+export STARDOG="${JOB_DIR}/packages/stardog"
+# SLF_JAR="${JOB_DIR}/packages/slf4j-log4j12"
+export STARDOG_HOME=/var/vcap/store/stardog/sd-home
+export STARDOG_CONFIG=$JOB_DIR/config
+export STARDOG_LICENSE_DIR=$JOB_DIR/license
+export PATH=$PATH:$STARDOG/bin
+
+case $1 in
+
+  start)
+    # configure_syslog_aggregator "${STARDOG_CONFIG}"
+
+    # dataDir
+    mkdir -p $STARDOG_HOME
+
+    echo "STARDOG_HOME: $STARDOG_HOME"
+
+    echo "java: $(which java)"
+
+    # license and configure the server
+    cp $STARDOG_LICENSE_DIR/stardog-license-key.bin $STARDOG_HOME/
+    cp $STARDOG_CONFIG/stardog.properties $STARDOG_HOME/
+    cp $STARDOG_CONFIG/log4j.properties $STARDOG_HOME/
+
+    # replace the current `stardog-admin` script with this one
+    # which is able to save the PID of the running process to a file
+    cp $JOB_DIR/bin/stardog-admin $STARDOG/bin/
+
+    # Enable LOG4J instead of default JDK logging through SLF4J; Log4J JAR already included in Stardog Pack directory
+    # cp $SLF_JAR/* $STARDOG/server/dbms
+    cp $STARDOG/server/pack/log4j-1.2.16.jar $STARDOG/server/dbms
+
+    exec stardog-admin server start --home $STARDOG_HOME --port 5821
+
+    ;;
+
+  stop)
+    exec stardog-admin server stop
+
+    ;;
+  *)
+    echo "Usage (stardog): stardog_ctl {start|stop}"
+
+    ;;
+
+esac
+exit 0
+

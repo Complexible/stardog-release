@@ -1,7 +1,5 @@
 ---
 name: stardog
-
-dependencies:
-
+dependencies: []
 files:
- - stardog/stardog-3.0.zip
+- stardog/stardog-3.0.1.zip

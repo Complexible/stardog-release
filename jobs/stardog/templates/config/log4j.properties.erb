@@ -1,13 +1,9 @@
 # Define some default values that can be overridden by system properties
-<% if_p('syslog_aggregator.host') do %>
-stardog.root.logger=INFO, ROLLINGFILE, syslog
-<% end.else do %>
 stardog.root.logger=INFO, ROLLINGFILE
-<% end %>
 stardog.console.threshold=INFO
-stardog.log.dir=/var/vcap/sys/log/stardog-node
+stardog.log.dir=/var/vcap/sys/log/stardog
 stardog.log.file=stardog.log
-stardog.tracelog.dir=/var/vcap/sys/log/stardog-node
+stardog.tracelog.dir=/var/vcap/sys/log/stardog
 stardog.tracelog.file=stardog_trace.log
 
 #
@@ -31,13 +27,6 @@ log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender
 log4j.appender.CONSOLE.Threshold=${stardog.console.threshold}
 log4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout
 log4j.appender.CONSOLE.layout.ConversionPattern=%d{ISO8601} %5p %t %c:%L - %m%n
-
-# Syslog Appender
-log4j.appender.syslog=org.apache.log4j.net.SyslogAppender
-log4j.appender.syslog.SyslogHost=localhost
-log4j.appender.syslog.Header=true
-log4j.appender.syslog.layout=org.apache.log4j.PatternLayout
-log4j.appender.syslog.layout.ConversionPattern=java: %5p %t %c:%L - %m%n
 
 #
 # Add ROLLINGFILE to rootLogger to get log file output

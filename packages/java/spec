@@ -1,7 +1,5 @@
 ---
 name: java
-
-dependencies:
-
+dependencies: []
 files:
- - java/openjdk-1.8.0_31.tar.gz
+- java/openjdk-1.8.0_40.tar.gz

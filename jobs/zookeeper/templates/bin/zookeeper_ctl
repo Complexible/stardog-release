@@ -7,11 +7,14 @@ set -u # report the usage of uninitialized variables
 source /var/vcap/jobs/zookeeper/helpers/ctl_setup.sh 'zookeeper'
 
 export LANG=en_US.UTF-8
-export PIDFILE=/var/vcap/store/zookeeper/zookeeper_server.pid
-STARDOG_INSTALL=${JOB_DIR}/packages/stardog/stardog-3.0"
+export PIDFILE="/var/vcap/store/${JOB_NAME}/${JOB_NAME}.pid"
+export STARDOG="${JOB_DIR}/packages/stardog"
+# SLF_JAR="${JOB_DIR}/packages/slf4j-log4j12"
+export STARDOG_HOME=/var/vcap/store/stardog/sd-home
+export PATH=$PATH:$STARDOG/bin
+
 export ZOOPIDFILE=$PIDFILE
-export STARDOG_HOME=$JOB_DIR/config
-export ZOOCFGDIR=$STARDOG_HOME
+export ZOOCFGDIR=$JOB_DIR/config
 export ZOO_DATADIR=/var/vcap/store/zookeeper
 export ZOO_LOG_DIR=/var/vcap/sys/log/zookeeper
 
@@ -19,19 +22,26 @@ export ZOO_LOG_DIR=/var/vcap/sys/log/zookeeper
 case $1 in
 
   start)
-    configure_syslog_aggregator "${ZOOCFGDIR}"
+    # configure_syslog_aggregator "${ZOOCFGDIR}"
 
     # dataDir
+    mkdir -p $STARDOG_HOME
     mkdir -p $ZOO_DATADIR
+    mkdir -p $ZOO_LOG_DIR
     cp $ZOOCFGDIR/myid $ZOO_DATADIR/
-    cp stardog-admin $STARDOG_INSTALL/bin
+    cp $ZOOCFGDIR/zookeeper.properties $STARDOG_HOME/
+    cp $ZOOCFGDIR/log4j.properties $STARDOG_HOME/
 
-    exec $STARDOG_INSTALL/bin/stardog-admin cluster zkstart --home $STARDOG_HOME
+    # replace the current `stardog-admin` script with this one
+    # which is able to save the PID of the running process to a file
+    cp $JOB_DIR/bin/stardog-admin $STARDOG/bin/
+
+    exec stardog-admin cluster zkstart --home $STARDOG_HOME
 
     ;;
 
   stop)
-    exec $STARDOG_INSTALL/bin/stardog-admin cluster zkstop
+    exec stardog-admin cluster zkstop
 
     ;;
   *)

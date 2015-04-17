@@ -1,0 +1,30 @@
+networks: (( merge ))
+
+meta:
+  environment: ~
+  networks:
+    app: default
+
+jobs:
+  - name: zookeeper_z1
+    template: zookeeper
+    instances: 0
+    resource_pool: small_z1
+    networks:
+    - name: (( meta.networks.app ))
+      static_ips: ~
+  - name: stardog_z1
+    template: stardog
+    instances: 0
+    resource_pool: small_z1
+    networks:
+    - name: (( meta.networks.app ))
+      static_ips: ~
+  
+
+properties:
+  networks:
+    apps: (( meta.networks.app ))
+  zookeeper:
+    members: (( merge ))
+

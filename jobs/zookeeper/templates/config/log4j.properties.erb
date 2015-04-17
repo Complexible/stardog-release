@@ -1,9 +1,6 @@
 #:Define some default values that can be overridden by system properties
-<% if_p('syslog_aggregator.host') do %>
-zookeeper.root.logger=INFO, ROLLINGFILE, syslog
-<% end.else do %>
 zookeeper.root.logger=INFO, ROLLINGFILE
-<% end %>
+
 zookeeper.console.threshold=INFO
 zookeeper.log.dir=/var/vcap/sys/log/zookeeper
 zookeeper.log.file=zookeeper.log
@@ -31,13 +28,6 @@ log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender
 log4j.appender.CONSOLE.Threshold=${zookeeper.console.threshold}
 log4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout
 log4j.appender.CONSOLE.layout.ConversionPattern=%d{ISO8601} [myid:%X{myid}] - %-5p [%t:%C{1}@%L] - %m%n
-
-# Syslog Appender
-log4j.appender.syslog=org.apache.log4j.net.SyslogAppender
-log4j.appender.syslog.SyslogHost=localhost
-log4j.appender.syslog.Header=true
-log4j.appender.syslog.layout=org.apache.log4j.PatternLayout
-log4j.appender.syslog.layout.ConversionPattern=java: %-5p [%t:%C{1}@%L] - %m%n
 
 #
 # Add ROLLINGFILE to rootLogger to get log file output

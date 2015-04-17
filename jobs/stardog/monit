@@ -1,0 +1,5 @@
+check process stardog
+  with pidfile /var/vcap/store/stardog/stardog.pid
+  start program "/var/vcap/jobs/stardog/bin/monit_debugger stardog '/var/vcap/jobs/stardog/bin/stardog_ctl start'"
+  stop program "/var/vcap/jobs/stardog/bin/monit_debugger stardog '/var/vcap/jobs/stardog/bin/stardog_ctl stop'"
+  group vcap

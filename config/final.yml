@@ -1,6 +1,5 @@
+---
 blobstore:
-  provider: local
+  provider: s3
   options:
-     blobstore_path: /Users/stuartcharlton/Downloads/bosh-blobs
-final_name: bosh-blobs
-
+    bucket_name: stardog-boshrelease

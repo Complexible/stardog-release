@@ -14,7 +14,9 @@ jobs:
     - name: (( meta.networks.app ))
       static_ips: ~
   - name: stardog_z1
-    template: stardog
+    template:
+    - stardog
+    - proxy
     instances: 0
     resource_pool: small_z1
     networks:

@@ -24,7 +24,6 @@ jobs:
     networks:
       - name: (( meta.networks.app ))
         static_ips: (( static_ips(0,1,2) ))
-  
 
 compilation:
   cloud_properties:

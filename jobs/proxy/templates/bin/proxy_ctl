@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/proxy/helpers/ctl_setup.sh 'proxy'
+
+export LANG=en_US.UTF-8
+export PIDFILE="/var/vcap/store/stardog/${JOB_NAME}.pid"
+export STARDOG="${JOB_DIR}/packages/stardog"
+# SLF_JAR="${JOB_DIR}/packages/slf4j-log4j12"
+export STARDOG_HOME=/var/vcap/store/stardog/sd-home
+export STARDOG_CONFIG=$JOB_DIR/config
+export PATH=$PATH:$STARDOG/bin
+
+case $1 in
+
+  start)
+    # configure_syslog_aggregator "${STARDOG_CONFIG}"
+
+    # dataDir
+    mkdir -p $STARDOG_HOME
+
+    echo "STARDOG_HOME: $STARDOG_HOME"
+
+    echo "java: $(which java)"
+
+    exec stardog-admin cluster proxystart --home $STARDOG_HOME --port 5820
+
+    ;;
+
+  stop)
+    exec stardog-admin cluster proxystop
+
+    ;;
+  *)
+    echo "Usage (stardog): proxy_ctl {start|stop}"
+
+    ;;
+
+esac
+exit 0
+

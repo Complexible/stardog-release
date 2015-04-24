@@ -1,0 +1,33 @@
+---
+name: proxy
+templates:
+  bin/proxy_ctl: bin/proxy_ctl
+  bin/monit_debugger: bin/monit_debugger
+  helpers/ctl_setup.sh: helpers/ctl_setup.sh
+  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+packages:
+ - java
+ - stardog
+
+properties:
+  networks.apps:
+    description: Network information
+  zookeeper.client-port:
+    description: The port the ZooKeeper client will listen on
+    default: 2181
+  zookeeper.members:
+    description: The hostname/IP addresses of the ZooKeeper instances
+  syslog_aggregator.host:
+    description: Host of the syslog aggregator
+  syslog_aggregator.port:
+    description: Port of the syslog aggregator
+    default: 514
+  syslog_aggregator.transport:
+    description: Transport to be used when forwarding logs (tcp|udp|relp)
+    default: tcp
+  stardog.cluster_username:
+    description: Username for encrypted data in ZK
+    default: user
+  stardog.cluster_password:
+    description: Password for encrypted data in ZK
+    default: pack

@@ -11,9 +11,11 @@ meta:
   networks:
     app: default
 
+  num_zoos: 3
+
 jobs:
   - name: zookeeper_z1
-    instances: 3
+    instances: (( meta.num_zoos ))
     networks:
       - name: (( meta.networks.app ))
     persistent_disk: (( meta.persistent_disk ))
@@ -42,7 +44,5 @@ resource_pools:
 
 properties:
   zookeeper:
-    members: >
-      <% 3.times do |i| %>
-      <%= "- #{i}.zookeeper-z1.default.stardog-aws-ec2.microbosh\n" %>
-      <% end %>
+    members: (( "<%= '['+(0...3).collect { |i| \"#{i}.zookeeper-z1.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))
+    #members: (( "<%= \"[\" %><% 3.times do |i| %> <%= \"#{i}.zookeeper-z1.default.stardog-aws-ec2.microbosh,\" %> <% end %> <%= \"]\" %>" ))

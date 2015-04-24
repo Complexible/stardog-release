@@ -27,4 +27,3 @@ properties:
     apps: (( meta.networks.app ))
   zookeeper:
     members: (( merge ))
-

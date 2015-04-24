@@ -8,11 +8,19 @@ meta:
     name: bosh-aws-xen-ubuntu
     version: latest
 
+  networks:
+    app: default
+
 jobs:
-  - name: stardog_z1
-    instances: 1
+  - name: zookeeper_z1
+    instances: 3
     networks:
-      - name: stardog1
+      - name: (( meta.networks.app ))
+    persistent_disk: (( meta.persistent_disk ))
+  - name: stardog_z1
+    instances: 3
+    networks:
+      - name: (( meta.networks.app ))
     persistent_disk: (( meta.persistent_disk ))
 
 compilation:
@@ -23,12 +31,18 @@ resource_pools:
   - name: small_z1
     cloud_properties:
       instance_type: m1.small
-
-networks:
-  - name: floating
-    type: vip
-    cloud_properties: {}
-  - name: stardog1
-    type: dynamic
+  - name: default
+    network: (( meta.networks.app ))
+    stemcell:
+      name: bosh-aws-xen-ubuntu-trusty-go_agent
+      version: latest
     cloud_properties:
-      security_groups: (( meta.security_groups ))
+      instance_type: m1.small
+      availability_zone: us-east-1a
+
+properties:
+  zookeeper:
+    members: >
+      <% 3.times do |i| %>
+      <%= "- #{i}.zookeeper-z1.default.stardog-aws-ec2.microbosh\n" %>
+      <% end %>

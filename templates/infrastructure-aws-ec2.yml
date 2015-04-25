@@ -11,16 +11,24 @@ meta:
   networks:
     app: default
 
-  num_zoos: 3
+  # unfortunately due to a missing feature we can't concat
+  # string and int values using spiff, therefore we have to
+  # repeat a line
+  # see: https://github.com/cloudfoundry-incubator/spiff/pull/55 
+  zookeepers:
+    instances_int: (( merge || 3 ))
+    instances_str: (( merge || "3"))
+  stardog:
+    instances: (( merge || 3 ))
 
 jobs:
   - name: zookeeper_z1
-    instances: (( meta.num_zoos ))
+    instances: (( meta.zookeepers.instances_int ))
     networks:
       - name: (( meta.networks.app ))
     persistent_disk: (( meta.persistent_disk ))
   - name: stardog_z1
-    instances: 3
+    instances: (( meta.stardog.instances ))
     networks:
       - name: (( meta.networks.app ))
     persistent_disk: (( meta.persistent_disk ))
@@ -44,5 +52,4 @@ resource_pools:
 
 properties:
   zookeeper:
-    members: (( "<%= '['+(0...3).collect { |i| \"#{i}.zookeeper-z1.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))
-    #members: (( "<%= \"[\" %><% 3.times do |i| %> <%= \"#{i}.zookeeper-z1.default.stardog-aws-ec2.microbosh,\" %> <% end %> <%= \"]\" %>" ))
+    members: (( "<%= '['+(0..." meta.zookeepers.instances_str ").collect { |i| \"#{i}.zookeeper-z1.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))

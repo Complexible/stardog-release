@@ -2,8 +2,6 @@
 
 ## TODO
 
-Work in progress; it deploys Stardog successfully using warden, but the proxy isn't integrated yet.
-
 Bugs:
 
 slf4j package in stardog-node should be configured to use log4j
@@ -19,6 +17,8 @@ cd stardog-release
 bosh upload release releases/stardog-1.yml
 ```
 
+Where `BOSH_HOST` is the IP/hostname of your BOSH (Lite) deployment.
+
 For [bosh-lite](https://github.com/cloudfoundry/bosh-lite), you can quickly create a deployment manifest & deploy a cluster:
 
 ```
@@ -26,34 +26,22 @@ templates/make_manifest warden
 bosh -n deploy
 ```
 
-For AWS EC2, create a single VM:
+For AWS EC2 you need to pass in the network parameters for your VPC, so
+you suffix this file path to the `make_manifest` command:
 
 ```
-templates/make_manifest aws-ec2
+templates/make_manifest aws-ec2 my-network.yml
 bosh -n deploy
 ```
 
-### Override security groups
+Your `my-network.yml` file should look like:
 
-For AWS & Openstack, the default deployment assumes there is a `default` security group. If you wish to use a different security group(s) then you can pass in additional configuration when running `make_manifest` above.
-
-Create a file `my-networking.yml`:
-
-``` yaml
+```yaml
 ---
 networks:
-  - name: stardog1
+  - name: default
     type: dynamic
+    dns: [10.0.0.6, 10.0.0.2]
     cloud_properties:
-      security_groups:
-        - stardog
-```
-
-Where `- stardog` means you wish to use an existing security group called `stardog`.
-
-You now suffix this file path to the `make_manifest` command:
-
-```
-templates/make_manifest openstack-nova my-networking.yml
-bosh -n deploy
+        subnet: YOUR_SUBNET_ID
 ```

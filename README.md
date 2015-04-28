@@ -1,47 +1,106 @@
 # BOSH Release for [Stardog](http://stardog.com)
 
-## TODO
-
-Bugs:
-
-slf4j package in stardog-node should be configured to use log4j
+This [BOSH](http://bosh.io) release currently supports AWS and Bosh Lite deployments.
 
 ## Usage
 
-To use this bosh release, first upload it to your bosh:
+First, make sure to install the [BOSH Command Line Interface](https://bosh.io/docs/bosh-cli.html)
+and [`spiff`](https://github.com/cloudfoundry-incubator/spiff#installation).
 
-```
-bosh target BOSH_HOST
-git clone https://github.com/complexible/stardog-release.git
-cd stardog-release
-bosh upload release releases/stardog-1.yml
-```
+#### AWS
 
-Where `BOSH_HOST` is the IP/hostname of your BOSH (Lite) deployment.
+To use this BOSH release on AWS, follow the next steps:
 
-For [bosh-lite](https://github.com/cloudfoundry/bosh-lite), you can quickly create a deployment manifest & deploy a cluster:
+1. First, set up MicroBOSH on [AWS](https://bosh.io/docs/deploy-microbosh-to-aws.html).
+2. Target your BOSH Director instance on AWS, and log in using `admin` for user and password.
+    
+		$ bosh target BOSH_HOST
+		$ bosh login
+		Your user: admin
+		Enter password: *****
 
-```
-templates/make_manifest warden
-bosh -n deploy
-```
+	Where `BOSH_HOST` is the IP/hostname of your BOSH (Lite) deployment.
 
-For AWS EC2 you need to pass in the network parameters for your VPC, so
-you suffix this file path to the `make_manifest` command:
+3. Clone this project and `cd` to it.
 
-```
-templates/make_manifest aws-ec2 my-network.yml
-bosh -n deploy
-```
+		$ git clone https://github.com/complexible/stardog-release.git
+		$ cd stardog-release
 
-Your `my-network.yml` file should look like:
+4. Place your license file in `jobs/stardog/templates/license/`.
+5. Create a new release:
+		
+		$ bosh create release  --name stardog --version 3.0.1 --force
 
-```yaml
----
-networks:
-  - name: default
-    type: dynamic
-    dns: [10.0.0.6, 10.0.0.2]
-    cloud_properties:
-        subnet: YOUR_SUBNET_ID
-```
+	This step will download the necessary binaries from an S3 blobstore and put
+	them within this repository.
+6. Upload your release to your BOSH Director
+
+		$ bosh upload release
+
+	This step will transfer the release scripts along with the binaries to your
+	BOSH Director instance on EC2.
+7. Create a manifest for your deployment
+	
+	1. First, create a configuration file to describe your AWS setup. Your `my-network.yml` file should look like:
+
+		```yaml
+		---
+		networks:
+  		- name: default
+		    type: dynamic
+		    dns: [10.0.0.6, 10.0.0.2]
+		    cloud_properties:
+		        subnet: YOUR_SUBNET_ID
+		meta:
+		  stardog:
+		    instances: 3
+		```
+
+		Where you can specify the number of Stardog instances and the type of network
+		according to the [BOSH CPI](http://bosh.io/docs/aws-cpi.html).
+
+	2. Next, create a manifest for your deployment using the `make_manifest` script:
+	
+		```
+		$ ./templates/make_manifest aws-ec2 my-network.yml
+		```
+	This will generate a manifest file by merging your configuration with the defaults.
+
+8. Now you're ready to deploy:
+
+	```
+	$ bosh deploy
+	```
+
+#### Warden
+
+In order to deploy to BOSH Lite – a local, development environment – you need the following:
+
+1. Install BOSH Lite following the instructions in
+the project's [`README`](https://github.com/cloudfoundry/bosh-lite#install-bosh-lite)
+2. Start `vagrant` with the `virtualbox` provider per the [instructions](https://github.com/cloudfoundry/bosh-lite#using-the-virtualbox-provider).
+3. Upload the Warden stemcell to your BOSH Lite Director:
+
+		$ bosh upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
+
+4. Create a release by following the steps 4, 5, and 6 from the AWS deployment.
+5. Create a manifest for your deployment:
+
+	```
+	$ templates/make_manifest warden
+	$ bosh -n deploy
+	```
+
+6. Now you're ready to deploy:
+
+	```
+	$ bosh deploy
+	```
+
+## Troubleshooting
+
+TODO
+
+### TODO
+
+slf4j package in stardog-node should be configured to use log4j

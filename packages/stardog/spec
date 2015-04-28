@@ -1,5 +1,5 @@
 ---
 name: stardog
-dependencies: []
+dependencies: [java]
 files:
 - stardog/stardog-3.0.1.zip

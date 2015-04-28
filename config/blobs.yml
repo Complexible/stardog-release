@@ -1,1 +1,9 @@
---- {}
+---
+java/openjdk-1.8.0_40.tar.gz:
+  object_id: ae060df6-9b36-4a45-bda1-892715370267
+  sha: 75f86c6e264256fbf3c5b65bb323f0131152ac96
+  size: 44936555
+stardog/stardog-3.0.1.zip:
+  object_id: 64d221bc-9e4a-495a-8f13-20e2324ded01
+  sha: 202971ef43b68050ea077f6edbdb7ddf2f5682e4
+  size: 65967855

@@ -3,8 +3,8 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
-# Setup env vars and folders for the webapp_ctl script
-source /var/vcap/jobs/proxy/helpers/ctl_setup.sh 'proxy'
+# Setup env vars and folders for the proxy_ctl script
+source /var/vcap/packages/helpers/ctl_setup.sh  'proxy'
 
 export LANG=en_US.UTF-8
 export PIDFILE="/var/vcap/store/stardog/${JOB_NAME}.pid"

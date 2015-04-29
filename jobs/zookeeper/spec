@@ -3,15 +3,13 @@ name: zookeeper
 packages:
 - java
 - stardog
+- helpers
 templates:
   bin/zookeeper_ctl: bin/zookeeper_ctl
   bin/monit_debugger: bin/monit_debugger
-  bin/stardog-admin: bin/stardog-admin
   config/myid.erb: config/myid
   config/zookeeper.properties.erb: config/zookeeper.properties
   config/log4j.properties.erb: config/log4j.properties
-  helpers/ctl_setup.sh: helpers/ctl_setup.sh
-  helpers/ctl_utils.sh: helpers/ctl_utils.sh
 properties:
   zookeeper.members:
     description: List of all zookeeper server host IP/hostnames

@@ -24,7 +24,8 @@ chmod 755 $JOB_DIR # to access file via symlink
 # incl $NAME, $JOB_INDEX, $WEBAPP_DIR
 # source $JOB_DIR/data/properties.sh
 
-source $JOB_DIR/helpers/ctl_utils.sh
+# source $JOB_DIR/helpers/ctl_utils.sh
+source /var/vcap/packages/helpers/ctl_utils.sh
 redirect_output ${output_label}
 
 export HOME=${HOME:-/home/vcap}
@@ -59,10 +60,10 @@ export JAVA_HOME="/var/vcap/packages/java"
 export PATH=$JAVA_HOME/bin:$PATH
 
 # setup CLASSPATH for all jars/ folders within packages
-# export CLASSPATH=${CLASSPATH:-''} # default to empty
-# for java_jar in $(ls -d /var/vcap/packages/*/*/*.jar)
-# do
-#   export CLASSPATH=${java_jar}:$CLASSPATH
-# done
+#export CLASSPATH=${CLASSPATH:-''} # default to empty
+#for java_jar in $(ls -d /var/vcap/packages/*/*/*.jar)
+#do
+#  export CLASSPATH=${java_jar}:$CLASSPATH
+#done
 
 echo '$PATH' $PATH

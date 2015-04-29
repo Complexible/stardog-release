@@ -3,15 +3,13 @@ name: stardog
 templates:
   bin/stardog_ctl: bin/stardog_ctl
   bin/monit_debugger: bin/monit_debugger
-  bin/stardog-admin: bin/stardog-admin
-  helpers/ctl_setup.sh: helpers/ctl_setup.sh
-  helpers/ctl_utils.sh: helpers/ctl_utils.sh
   config/log4j.properties.erb: config/log4j.properties
   config/stardog.properties.erb: config/stardog.properties
   license/stardog-license-key.bin: license/stardog-license-key.bin
 packages:
  - java
  - stardog
+ - helpers
 
 properties:
   networks.apps:

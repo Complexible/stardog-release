@@ -3,11 +3,10 @@ name: proxy
 templates:
   bin/proxy_ctl: bin/proxy_ctl
   bin/monit_debugger: bin/monit_debugger
-  helpers/ctl_setup.sh: helpers/ctl_setup.sh
-  helpers/ctl_utils.sh: helpers/ctl_utils.sh
 packages:
  - java
  - stardog
+ - helpers
 
 properties:
   networks.apps:

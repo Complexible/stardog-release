@@ -7,16 +7,17 @@ meta:
 
 jobs:
   - name: zookeeper
-    template: zookeeper
+    templates:
+    - {name: zookeeper, release: stardog}
     instances: 0
     resource_pool: small_z1
     networks:
     - name: (( meta.networks.app ))
       static_ips: ~
   - name: stardog
-    template:
-    - stardog
-    - proxy
+    templates:
+    - {name: stardog, release: stardog}
+    - {name: proxy, release: stardog}
     instances: 0
     resource_pool: small_z1
     networks:

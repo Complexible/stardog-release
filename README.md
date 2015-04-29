@@ -28,20 +28,14 @@ To use this BOSH release on AWS, follow the next steps:
 		$ git clone https://github.com/complexible/stardog-release.git
 		$ cd stardog-release
 
-4. Place your license file in `jobs/stardog/templates/license/`.
-5. Create a new release:
+4. Create a new release:
 		
-		$ bosh create release  --name stardog --version 3.0.1 --force
+		$ ./create_release path/to/your/stardog-license-key.bin
 
-	This step will download the necessary binaries from an S3 blobstore and put
-	them within this repository.
-6. Upload your release to your BOSH Director
-
-		$ bosh upload release
-
-	This step will transfer the release scripts along with the binaries to your
-	BOSH Director instance on EC2.
-7. Create a manifest for your deployment
+	This step will place your license in the BOSH release and download the necessary
+	binaries from an S3 blobstore and put them within this repository. Then it will
+	upload all the artifacts to your BOSH Director.
+5. Create a manifest for your deployment
 	
 	1. First, create a configuration file to describe your AWS setup. Your `my-network.yml` file should look like:
 
@@ -64,7 +58,7 @@ To use this BOSH release on AWS, follow the next steps:
 		```
 	This will generate a manifest file by merging your configuration with the defaults.
 
-8. Now you're ready to deploy:
+6. Now you're ready to deploy:
 
 	```
 	$ bosh deploy
@@ -81,7 +75,10 @@ the project's [`README`](https://github.com/cloudfoundry/bosh-lite#install-bosh-
 
 		$ bosh upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
 
-4. Create a release by following the steps 4, 5, and 6 from the AWS deployment.
+4. Create a new release:
+		
+		$ ./create_release path/to/your/stardog-license-key.bin
+
 5. Create a manifest for your deployment:
 
 	```

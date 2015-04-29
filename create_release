@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+license_path=$1
+
+if [ "$license_path" == "" ]; then
+	echo "usage: ./create_release <path/to/stardog-license-key.bin>"
+  exit 1
+fi
+
+dest="jobs/stardog/templates/license/"
+cp $license_path $dest
+
+bosh -n create release  --name stardog --force
+bosh -n upload release

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Stardog environment properties
+
+<% if_p("stardog.java_args") do |stardog_java_args| %>
+export STARDOG_JAVA_ARGS="<%= stardog_java_args %>"
+<% end %>

@@ -5,6 +5,7 @@ templates:
   bin/monit_debugger: bin/monit_debugger
   config/log4j.properties.erb: config/log4j.properties
   config/stardog.properties.erb: config/stardog.properties
+  data/properties.sh.erb: data/properties.sh
   license/stardog-license-key.bin: license/stardog-license-key.bin
 packages:
  - java
@@ -33,3 +34,5 @@ properties:
   stardog.cluster_password:
     description: Password for encrypted data in ZK
     default: pack
+  stardog.java_args:
+    description: Java arguments to be passed to $STARDOG_JAVA_ARGS

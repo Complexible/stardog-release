@@ -53,13 +53,9 @@ To use this BOSH release on AWS, follow the next steps:
 		    dns: [10.0.0.6, 10.0.0.2]
 		    cloud_properties:
 		        subnet: YOUR_SUBNET_ID
-		meta:
-		  stardog:
-		    instances: 3
 		```
 
-		Where you can specify the number of Stardog instances and the type of network
-		according to the [BOSH CPI](http://bosh.io/docs/aws-cpi.html).
+		Where you can specify the type of network according to the [BOSH CPI](http://bosh.io/docs/aws-cpi.html).
 
 	2. Next, create a manifest for your deployment using the `make_manifest` script:
 	
@@ -98,6 +94,30 @@ the project's [`README`](https://github.com/cloudfoundry/bosh-lite#install-bosh-
 	```
 	$ bosh deploy
 	```
+
+### Configuration
+
+When building your manifest you can also pass more properties to your deployment manifest, such as:
+
+```
+---
+meta:
+  stardog:
+    instances: 3
+
+properties:
+  stardog:
+    java_args:
+      "-Xmx32g -Xms32g -XX:MaxDirectMemorySize=16g -Dfile.encoding=UTF-8"
+
+```
+
+And then suffix the `make_manifest` script arguments:
+
+```
+$ ./templates/make_manifest aws-ec2 ... my-properties.yml
+```
+
 
 ## Troubleshooting
 

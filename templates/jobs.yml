@@ -29,3 +29,5 @@ properties:
     apps: (( meta.networks.app ))
   zookeeper:
     members: (( merge ))
+  stardog:
+    java_args: (( merge || "~" ))

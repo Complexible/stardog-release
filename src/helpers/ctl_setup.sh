@@ -22,7 +22,9 @@ chmod 755 $JOB_DIR # to access file via symlink
 # Load some bosh deployment properties into env vars
 # Try to put all ERb into data/properties.sh.erb
 # incl $NAME, $JOB_INDEX, $WEBAPP_DIR
-# source $JOB_DIR/data/properties.sh
+if [ -f $JOB_DIR/data/properties.sh ]; then
+	source $JOB_DIR/data/properties.sh
+fi
 
 # source $JOB_DIR/helpers/ctl_utils.sh
 source /var/vcap/packages/helpers/ctl_utils.sh

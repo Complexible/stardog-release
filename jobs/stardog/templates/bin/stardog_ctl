@@ -38,7 +38,6 @@ case $1 in
 
     # Enable LOG4J instead of default JDK logging through SLF4J; Log4J JAR already included in Stardog Pack directory
     # cp $SLF_JAR/* $STARDOG/server/dbms
-    cp $STARDOG/server/pack/log4j-1.2.16.jar $STARDOG/server/dbms
 
     exec stardog-admin server start --home $STARDOG_HOME --port 5821
 

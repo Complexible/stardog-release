@@ -14,12 +14,12 @@ update:
   update_watch_time: 1000-30000
 
 jobs:
-  - name: zookeeper_z1
+  - name: zookeeper
     instances: 3
     networks:
       - name: (( meta.networks.app ))
         static_ips: (( static_ips(3,4,5) ))
-  - name: stardog_z1
+  - name: stardog
     instances: 3
     networks:
       - name: (( meta.networks.app ))
@@ -36,7 +36,7 @@ resource_pools:
 
 properties:
   zookeeper:
-    members: (( jobs.zookeeper_z1.networks.[0].static_ips ))
+    members: (( jobs.zookeeper.networks.[0].static_ips ))
 
 networks:
 - name: (( meta.networks.app ))

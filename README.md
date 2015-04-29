@@ -12,6 +12,8 @@ and [`spiff`](https://github.com/cloudfoundry-incubator/spiff#installation).
 To use this BOSH release on AWS, follow the next steps:
 
 1. First, set up MicroBOSH on [AWS](https://bosh.io/docs/deploy-microbosh-to-aws.html).
+	Note: when you set up your security group permissions, remember to open ports
+	5820, 5821, 2888, and 3888, or whichever you choose for your Stardog Cluster.
 2. Target your BOSH Director instance on AWS, and log in using `admin` for user and password.
     
 		$ bosh target BOSH_HOST

@@ -22,12 +22,12 @@ meta:
     instances: (( merge || 3 ))
 
 jobs:
-  - name: zookeeper_z1
+  - name: zookeeper
     instances: (( meta.zookeepers.instances_int ))
     networks:
       - name: (( meta.networks.app ))
     persistent_disk: (( meta.persistent_disk ))
-  - name: stardog_z1
+  - name: stardog
     instances: (( meta.stardog.instances ))
     networks:
       - name: (( meta.networks.app ))

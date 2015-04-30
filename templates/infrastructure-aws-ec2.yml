@@ -26,19 +26,22 @@ jobs:
     instances: (( meta.zookeepers.instances_int ))
     networks:
       - name: (( meta.networks.app ))
-    persistent_disk: (( meta.persistent_disk ))
+    persistent_disk_pool: small_disk
   - name: stardog
     instances: (( meta.stardog.instances ))
     networks:
       - name: (( meta.networks.app ))
-    persistent_disk: (( meta.persistent_disk ))
+    persistent_disk_pool: large_disk
 
 compilation:
   cloud_properties:
     instance_type: m1.small
 
 resource_pools:
-  - name: small_z1
+  - name: small
+    cloud_properties:
+      instance_type: m1.small
+  - name: large
     cloud_properties:
       instance_type: m1.small
   - name: default
@@ -50,6 +53,16 @@ resource_pools:
       instance_type: m1.small
       availability_zone: us-east-1a
 
+disk_pools:
+  - name: large_disk
+    disk_size: (( merge || 0 ))
+    cloud_properties:
+      type: (( merge || "gp2" ))
+  - name: small_disk
+    disk_size: (( merge || 0 ))
+    cloud_properties:
+      type: (( merge || "gp2" ))
+
 properties:
   zookeeper:
-    members: (( "<%= '['+(0..." meta.zookeepers.instances_str ").collect { |i| \"#{i}.zookeeper-z1.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))
+    members: (( "<%= '['+(0..." meta.zookeepers.instances_str ").collect { |i| \"#{i}.zookeeper.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))

@@ -27,8 +27,21 @@ update:
   update_watch_time: 5000-60000
 
 resource_pools:
-  - name: small_z1
+  - name: small
     network: (( properties.networks.apps ))
     size: (( auto ))
     stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+  - name: large
+    network: (( properties.networks.apps ))
+    size: (( auto ))
+    stemcell: (( meta.stemcell ))
+    cloud_properties: (( merge ))
+
+disk_pools:
+  - name: large_disk
+    disk_size: (( merge ))
+    cloud_properties: (( merge ))
+  - name: small_disk
+    disk_size: (( merge ))
     cloud_properties: (( merge ))

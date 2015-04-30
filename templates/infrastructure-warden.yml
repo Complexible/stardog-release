@@ -30,7 +30,10 @@ compilation:
     name: random
 
 resource_pools:
-  - name: small_z1
+  - name: small
+    cloud_properties:
+      name: random
+  - name: large
     cloud_properties:
       name: random
 

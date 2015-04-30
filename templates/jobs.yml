@@ -10,7 +10,8 @@ jobs:
     templates:
     - {name: zookeeper, release: stardog}
     instances: 0
-    resource_pool: small_z1
+    resource_pool: small
+    persistent_disk_pool: (( merge ))
     networks:
     - name: (( meta.networks.app ))
       static_ips: ~
@@ -19,7 +20,8 @@ jobs:
     - {name: stardog, release: stardog}
     - {name: proxy, release: stardog}
     instances: 0
-    resource_pool: small_z1
+    resource_pool: large
+    persistent_disk_pool: (( merge ))
     networks:
     - name: (( meta.networks.app ))
       static_ips: ~

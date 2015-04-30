@@ -118,7 +118,29 @@ $ ./templates/make_manifest aws-ec2 ... my-properties.yml
 
 ## Troubleshooting
 
-TODO
+You can use the BOSH logs to troubleshoot your deployment as it's specified in their [docs](https://bosh.io/docs/job-logs.html)
+(access to the machines is done via `bosh ssh` or directly via `ssh <ip_addr>`).
+`$STARDOG_HOME` is located in `/var/vcap/store/sd-home`, wherein the logs and configuration
+is also located.
+
+### AWS
+
+In order to log in in SSH to AWS deployments via the BOSH Director you need to add your public key to your ssh agent
+then specify the gateway and user on login:
+
+```
+ssh-add path/to/your/bosh.pem
+bosh ssh stardog 1 --gateway_host <director_ip_addr> --gateway_user vcap
+```
+
+The password for the user `vcap` is `c1oudc0w`.
+
+Otherwise you can log in directly (if your subnet has Public IPs enabled):
+
+```
+ssh-add path/to/your/bosh.pem
+ssh vcap@<instance_ip_addr>
+```
 
 ### TODO
 

@@ -91,11 +91,11 @@ if [ "$1" = "cluster" ]; then
     BACKGROUND=true
   fi
   if [ "$2" = "zkstop" ]; then
-    jps -m | grep zkstart | awk '{ print $1 }' | xargs kill -15
+    ps -ef | grep zkstart | grep -v grep |  awk '{ print $2 }' | xargs kill -15
     STARDOG_ARGS+=('--is-successful' "$?")
   fi
   if [ "$2" = "proxystop" ]; then
-    jps -m | grep proxystart | awk '{ print $1 }' | xargs kill -15
+    ps -ef | grep zkstart | grep -v grep |  awk '{ print $2 }' | xargs kill -15
     STARDOG_ARGS+=('--is-successful' "$?")
   fi
 fi

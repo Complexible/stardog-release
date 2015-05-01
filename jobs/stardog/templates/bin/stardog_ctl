@@ -30,7 +30,7 @@ case $1 in
     # license and configure the server
     cp $STARDOG_LICENSE_DIR/stardog-license-key.bin $STARDOG_HOME/
     cp $STARDOG_CONFIG/stardog.properties $STARDOG_HOME/
-    cp $STARDOG_CONFIG/log4j.properties $STARDOG_HOME/
+    cp $STARDOG_CONFIG/logging.properties $STARDOG_HOME/
 
     # replace the current `stardog-admin` script with this one
     # which is able to save the PID of the running process to a file

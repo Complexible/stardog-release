@@ -33,4 +33,4 @@ properties:
   zookeeper:
     members: (( merge ))
   stardog:
-    java_args: (( merge || "~" ))
+    java_args: ~

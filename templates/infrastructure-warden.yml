@@ -19,11 +19,13 @@ jobs:
     networks:
       - name: (( meta.networks.app ))
         static_ips: (( static_ips(3,4,5) ))
+    persistent_disk_pool: small_disk
   - name: stardog
     instances: 3
     networks:
       - name: (( meta.networks.app ))
         static_ips: (( static_ips(0,1,2) ))
+    persistent_disk_pool: large_disk
 
 compilation:
   cloud_properties:
@@ -36,6 +38,15 @@ resource_pools:
   - name: large
     cloud_properties:
       name: random
+
+disk_pools:
+  - name: large_disk
+    disk_size: 0
+    cloud_properties: {}
+  - name: small_disk
+    disk_size: 0
+    cloud_properties: {}
+
 
 properties:
   zookeeper:

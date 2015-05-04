@@ -14,6 +14,32 @@ To use this BOSH release on AWS, follow the next steps:
 1. First, set up MicroBOSH on [AWS](https://bosh.io/docs/deploy-microbosh-to-aws.html).
 	Note: when you set up your security group permissions, remember to open ports
 	5820, 5821, 2888, and 3888, or whichever you choose for your Stardog Cluster.
+	
+	* NOTE: The following issue has been found to happen when deploying the MicroBOSH instance with Mac OS X, related to one of bosh dependencies [(fog-aws v0.1.2)](https://github.com/fog/fog-aws/issues/83#issuecomment-98167805):
+	
+	
+			$ bosh micro deploy STEMCELL-PATH
+			/Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:4:in `<class:AutoScaling>': uninitialized constant Fog::AWS::CredentialFetcher (NameError)
+			from /Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:3:in `<module:AWS>'
+			from /Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:2:in `<module:Fog>'
+			from /Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:1:in `<top (required)>'
+			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+			from /Library/Ruby/Gems/2.0.0/gems/fog-1.27.0/lib/fog/aws.rb:2:in `<top (required)>'
+			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+			from /Library/Ruby/Gems/2.0.0/gems/fog-1.27.0/lib/fog.rb:23:in `<top (required)>'
+			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+			from /Library/Ruby/Gems/2.0.0/gems/bosh-registry-1.2962.0/lib/bosh/registry.rb:10:in `<top (required)>'
+			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+			from /Library/Ruby/Gems/2.0.0/gems/bosh-registry-1.2962.0/bin/bosh-registry:3:in `<top (required)>'
+			from /usr/bin/bosh-registry:23:in `load'
+		 	from /usr/bin/bosh-registry:23:in `<main>'
+	
+	 In order to fix it, please follow [these](http://stackoverflow.com/questions/29627590/bosh-deploy-get-uninitialized-constant-fogawscredentialfetcher-nameerror/29638183#29638183) instructions.
+	
 2. Target your BOSH Director instance on AWS, and log in using `admin` for user and password.
     
 		$ bosh target BOSH_HOST

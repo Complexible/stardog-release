@@ -1,6 +1,6 @@
-# BOSH Release for [Stardog](http://stardog.com)
+# Stardog Release
 
-This [BOSH](http://bosh.io) release currently supports AWS and Bosh Lite deployments.
+This [BOSH](http://bosh.io) configuration currently supports AWS and Bosh Lite deployments of Stardog Cluster.
 
 ## Usage
 

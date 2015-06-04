@@ -69,10 +69,10 @@ To use this BOSH release on AWS, follow the next steps:
 		---
 		networks:
   		- name: default
-		    type: dynamic
-		    dns: [10.0.0.6, 10.0.0.2]
-		    cloud_properties:
-		        subnet: YOUR_SUBNET_ID
+		  type: dynamic
+		  dns: [10.0.0.6, 10.0.0.2]
+		  cloud_properties:
+		    subnet: YOUR_SUBNET_ID
 		```
 
 		Where you can specify the type of network according to the [BOSH CPI](http://bosh.io/docs/aws-cpi.html).

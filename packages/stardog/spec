@@ -2,4 +2,4 @@
 name: stardog
 dependencies: [java]
 files:
-- stardog/stardog-3.0.1.zip
+- stardog/stardog-3.1.zip

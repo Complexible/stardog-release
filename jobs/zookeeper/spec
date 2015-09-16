@@ -9,7 +9,6 @@ templates:
   bin/monit_debugger: bin/monit_debugger
   config/myid.erb: config/myid
   config/zookeeper.properties.erb: config/zookeeper.properties
-  config/logging.properties.erb: config/logging.properties
 properties:
   zookeeper.members:
     description: List of all zookeeper server host IP/hostnames

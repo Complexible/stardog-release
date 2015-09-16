@@ -51,6 +51,8 @@ disk_pools:
 properties:
   zookeeper:
     members: (( jobs.zookeeper.networks.[0].static_ips ))
+  stardog:
+    cluster_members: (( jobs.stardog.networks.[0].static_ips ))
 
 networks:
 - name: (( meta.networks.app ))

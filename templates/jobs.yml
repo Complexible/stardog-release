@@ -18,14 +18,14 @@ jobs:
   - name: stardog
     templates:
     - {name: stardog, release: stardog}
-    - {name: proxy, release: stardog}
+    - {name: haproxy, release: stardog}
     instances: 0
     resource_pool: large
     persistent_disk_pool: (( merge ))
     networks:
     - name: (( meta.networks.app ))
       static_ips: ~
-  
+
 
 properties:
   networks:
@@ -34,3 +34,4 @@ properties:
     members: (( merge ))
   stardog:
     java_args: ~
+    cluster_members: (( merge ))

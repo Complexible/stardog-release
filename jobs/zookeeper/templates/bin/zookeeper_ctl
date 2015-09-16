@@ -30,7 +30,6 @@ case $1 in
     mkdir -p $ZOO_LOG_DIR
     cp $ZOOCFGDIR/myid $ZOO_DATADIR/
     cp $ZOOCFGDIR/zookeeper.properties $STARDOG_HOME/
-    cp $ZOOCFGDIR/logging.properties $STARDOG_HOME/
 
     # replace the current `stardog-admin` script with this one
     # which is able to save the PID of the running process to a file

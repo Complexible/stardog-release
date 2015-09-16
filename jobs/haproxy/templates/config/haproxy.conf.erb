@@ -1,0 +1,40 @@
+# Simple configuration for a stardog proxy listening on port 5820 on all
+# interfaces and forwarding requests to a single backend "stardogs".
+# Also uses sticky sessions otherwise it breaks client connections.
+
+global
+    daemon
+    maxconn 256
+
+# timeouts are rather arbitrary, but good enough
+# for long runing loads, for example
+defaults
+    timeout connect 5s
+    timeout client 1h
+    timeout server 1h
+
+frontend stardog-in
+    option tcpka # keep-alive
+    bind *:5820
+    default_backend stardogs
+
+backend stardogs
+    # maxconn, stick table size and expiration time
+    # are pretty arbitrary
+    option tcpka # keep-alive
+    stick-table type integer size 200k expire 30m
+    stick on dst
+    option tcp-check
+    # health check PING -> PONG
+    tcp-check send-binary 50494e47 # PING
+    tcp-check expect binary 504F4e47 # PONG
+    <% p("stardog.cluster_members").each_with_index do |server_host, index| %>
+    server stardog<%= index + 1 %> <%= server_host %>:5821 maxconn 32 check
+    <% end %>
+
+# debugging
+listen stats *:8888
+    mode http
+    stats enable
+    stats uri /
+    stats hide-version

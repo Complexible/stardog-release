@@ -3,7 +3,6 @@ name: stardog
 templates:
   bin/stardog_ctl: bin/stardog_ctl
   bin/monit_debugger: bin/monit_debugger
-  config/logging.properties.erb: config/logging.properties
   config/stardog.properties.erb: config/stardog.properties
   data/properties.sh.erb: data/properties.sh
   license/stardog-license-key.bin: license/stardog-license-key.bin

@@ -30,7 +30,6 @@ case $1 in
     # license and configure the server
     cp $STARDOG_LICENSE_DIR/stardog-license-key.bin $STARDOG_HOME/
     cp $STARDOG_CONFIG/stardog.properties $STARDOG_HOME/
-    cp $STARDOG_CONFIG/logging.properties $STARDOG_HOME/
 
     # replace the current `stardog-admin` script with this one
     # which is able to save the PID of the running process to a file
@@ -39,7 +38,7 @@ case $1 in
     # Enable LOG4J instead of default JDK logging through SLF4J; Log4J JAR already included in Stardog Pack directory
     # cp $SLF_JAR/* $STARDOG/server/dbms
 
-    exec stardog-admin server start --home $STARDOG_HOME --port 5821
+    exec stardog-admin server start --port 5821
 
     ;;
 

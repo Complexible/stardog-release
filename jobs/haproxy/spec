@@ -1,0 +1,14 @@
+---
+name: haproxy
+templates:
+  bin/proxy_ctl: bin/proxy_ctl
+  bin/monit_debugger: bin/monit_debugger
+  config/haproxy.conf.erb: config/haproxy.conf
+packages:
+ - haproxy
+
+properties:
+  networks.apps:
+    description: Network information
+  stardog.cluster_members:
+    description: The list of Stardog servers

@@ -66,3 +66,5 @@ disk_pools:
 properties:
   zookeeper:
     members: (( "<%= '['+(0..." meta.zookeepers.instances_str ").collect { |i| \"#{i}.zookeeper.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))
+  stardog:
+    cluster_members: (( "<%= '['+(0..." meta.stardog.instances_str ").collect { |i| \"#{i}.stardog.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))

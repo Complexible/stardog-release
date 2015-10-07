@@ -11,3 +11,11 @@ stardog/stardog-3.1.zip:
   object_id: d2959e3c-8fba-47f1-a403-4655da1894f0
   sha: bccf99a5776c0a6674ffb05e2f7ad0947a8f614f
   size: 66034217
+haproxy/haproxy-1.5.14.tar.gz:
+  object_id: 96081f09-22af-41a6-ac10-c06014fc6583
+  sha: 159f5beb8fdc6b8059ae51b53dc935d91c0fb51f
+  size: 1345345
+stardog/stardog-4.0-RC1.zip:
+  object_id: ec8bbd8e-50bd-4f34-81d8-c9fa8f3aef1f
+  sha: 39bd271da0ed80d68edd2b526c27a7f69ee9eb04
+  size: 69385530

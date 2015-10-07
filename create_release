@@ -9,7 +9,7 @@ if [ "$license_path" == "" ]; then
   exit 1
 fi
 
-dest="jobs/stardog/templates/license/"
+dest="jobs/stardog/templates/license/stardog-license-key.bin"
 cp $license_path $dest
 
 bosh -n create release  --name stardog --force

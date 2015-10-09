@@ -38,7 +38,9 @@ if [ -n "$APP_START" -a -z "$FOREGROUND" ]; then
   trap "signal_handler_first_stage" INT TERM 
 
   "${java}" ${STARDOG_JAVA_ARGS} ${STARDOG_PERF_JAVA_ARGS} ${DEFAULT_JAVA_ARGS} \
-            -Dstardog.install.location="${STARDOG}"  -server -classpath "${CLASSPATH}" \
+            -Dstardog.install.location="${STARDOG}" \
+            -Djava.io.tmpdir=/var/vcap/store/stardog/sd-home/.tmp \
+            -server -classpath "${CLASSPATH}" \
             com.complexible.stardog.cli.admin.CLI "${STARDOG_ARGS[@]}" &
   PID=$!
   echo $PID > $PIDFILE

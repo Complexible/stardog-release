@@ -10,20 +10,30 @@ meta:
 
   networks:
     app: default
+    subnet: (( merge ))
 
-  # unfortunately due to a missing feature we can't concat
-  # string and int values using spiff, therefore we have to
-  # repeat a line
-  # see: https://github.com/cloudfoundry-incubator/spiff/pull/55 
   zookeepers:
-    instances_int: (( merge || 3 ))
-    instances_str: (( merge || "3"))
+    instances: (( merge || 3 ))
+    instances_str: (( " " zookeepers.instances ))
   stardog:
     instances: (( merge || 3 ))
+    instances_str: (( " " stardog.instances ))
+
+networks:
+- name: (( meta.networks.app ))
+  type: manual
+  subnets:
+    - range: 10.0.0.0/24
+      gateway: 10.0.0.1
+      dns: [10.0.0.6, 10.0.0.2]
+      reserved: [10.0.0.2-10.0.0.10]
+      static: [10.0.0.11-10.0.0.100]
+      cloud_properties:
+        subnet: (( meta.networks.subnet ))
 
 jobs:
   - name: zookeeper
-    instances: (( meta.zookeepers.instances_int ))
+    instances: (( meta.zookeepers.instances ))
     networks:
       - name: (( meta.networks.app ))
     persistent_disk_pool: small_disk
@@ -31,6 +41,8 @@ jobs:
     instances: (( meta.stardog.instances ))
     networks:
       - name: (( meta.networks.app ))
+        static_ips: (( static_ips(11,12,13) ))
+
     persistent_disk_pool: large_disk
 
 compilation:
@@ -67,4 +79,9 @@ properties:
   zookeeper:
     members: (( "<%= '['+(0..." meta.zookeepers.instances_str ").collect { |i| \"#{i}.zookeeper.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))
   stardog:
-    cluster_members: (( "<%= '['+(0..." meta.stardog.instances_str ").collect { |i| \"#{i}.stardog.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))
+    cluster_members: (( jobs.stardog.networks.[0].static_ips ))
+
+  # the following won't work since haproxy needs hostnames to be resolvable at startup,
+  # but powerdns creates the record after the jobs are done
+  # stardog:
+  #  cluster_members: (( "<%= '['+(0..." meta.stardog.instances_str ").collect { |i| \"#{i}.stardog.default.stardog-aws-ec2.microbosh\" }.join(\", \")+']' %>" ))

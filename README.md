@@ -5,7 +5,7 @@ This [BOSH](http://bosh.io) configuration currently supports AWS and Bosh Lite d
 ## Usage
 
 First, make sure to install the [BOSH Command Line Interface](https://bosh.io/docs/bosh-cli.html)
-and [`spiff`](https://github.com/cloudfoundry-incubator/spiff#installation).
+and [`spiff`](https://github.com/cloudfoundry-incubator/spiff#installation) (v1.0.7 or newer).
 
 #### AWS
 
@@ -14,31 +14,6 @@ To use this BOSH release on AWS, follow the next steps:
 1. First, set up MicroBOSH on [AWS](https://bosh.io/docs/deploy-microbosh-to-aws.html).
 	Note: when you set up your security group permissions, remember to open ports
 	5820, 5821, 2888, and 3888, or whichever you choose for your Stardog Cluster.
-	
-	* NOTE: The following issue has been found to happen when deploying the MicroBOSH instance with Mac OS X, related to one of bosh dependencies [(fog-aws v0.1.2)](https://github.com/fog/fog-aws/issues/83#issuecomment-98167805):
-	
-	
-			$ bosh micro deploy STEMCELL-PATH
-			/Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:4:in `<class:AutoScaling>': uninitialized constant Fog::AWS::CredentialFetcher (NameError)
-			from /Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:3:in `<module:AWS>'
-			from /Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:2:in `<module:Fog>'
-			from /Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:1:in `<top (required)>'
-			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
-			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
-			from /Library/Ruby/Gems/2.0.0/gems/fog-1.27.0/lib/fog/aws.rb:2:in `<top (required)>'
-			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
-			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
-			from /Library/Ruby/Gems/2.0.0/gems/fog-1.27.0/lib/fog.rb:23:in `<top (required)>'
-			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
-			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
-			from /Library/Ruby/Gems/2.0.0/gems/bosh-registry-1.2962.0/lib/bosh/registry.rb:10:in `<top (required)>'
-			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
-			from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
-			from /Library/Ruby/Gems/2.0.0/gems/bosh-registry-1.2962.0/bin/bosh-registry:3:in `<top (required)>'
-			from /usr/bin/bosh-registry:23:in `load'
-		 	from /usr/bin/bosh-registry:23:in `<main>'
-	
-	 In order to fix it, please follow [these](http://stackoverflow.com/questions/29627590/bosh-deploy-get-uninitialized-constant-fogawscredentialfetcher-nameerror/29638183#29638183) instructions.
 	
 2. Target your BOSH Director instance on AWS, and log in using `admin` for user and password.
     
@@ -67,15 +42,12 @@ To use this BOSH release on AWS, follow the next steps:
 
 		```yaml
 		---
-		networks:
-  		- name: default
-		  type: dynamic
-		  dns: [10.0.0.6, 10.0.0.2]
-		  cloud_properties:
+		meta: 
+		  networks:
 		    subnet: YOUR_SUBNET_ID
 		```
 
-		Where you can specify the type of network according to the [BOSH CPI](http://bosh.io/docs/aws-cpi.html).
+		Where you specify the subnet id according to your AWS setup in the first step [(see BOSH CPI)](http://bosh.io/docs/aws-cpi.html).
 
 	2. Next, create a manifest for your deployment using the `make_manifest` script:
 	
@@ -124,10 +96,6 @@ When building your manifest you can also pass more properties to your deployment
 
 ```
 ---
-meta:
-  stardog:
-    instances: 3
-
 properties:
   stardog:
     java_args:
@@ -156,7 +124,7 @@ then specify the gateway and user on login:
 
 ```
 ssh-add path/to/your/bosh.pem
-bosh ssh stardog 1 --gateway_host <director_ip_addr> --gateway_user vcap
+bosh ssh stardog 1 --gateway_host <director_ip_addr> --gateway_user vcap --strict_host_key_checking no
 ```
 
 The password for the user `vcap` is `c1oudc0w`.
@@ -168,6 +136,28 @@ ssh-add path/to/your/bosh.pem
 ssh vcap@<instance_ip_addr>
 ```
 
-### TODO
+* NOTE: The following issue has been found to happen when deploying the MicroBOSH instance with Mac OS X, related to one of bosh dependencies [(fog-aws v0.1.2)](https://github.com/fog/fog-aws/issues/83#issuecomment-98167805):
+	
+```	
+$ bosh micro deploy STEMCELL-PATH
+/Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:4:in `<class:AutoScaling>': uninitialized constant Fog::AWS::CredentialFetcher (NameError)
+from /Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:3:in `<module:AWS>'
+from /Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:2:in `<module:Fog>'
+from /Library/Ruby/Gems/2.0.0/gems/fog-aws-0.1.2/lib/fog/aws/auto_scaling.rb:1:in `<top (required)>'
+from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+from /Library/Ruby/Gems/2.0.0/gems/fog-1.27.0/lib/fog/aws.rb:2:in `<top (required)>'
+from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+from /Library/Ruby/Gems/2.0.0/gems/fog-1.27.0/lib/fog.rb:23:in `<top (required)>'
+from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+from /Library/Ruby/Gems/2.0.0/gems/bosh-registry-1.2962.0/lib/bosh/registry.rb:10:in `<top (required)>'
+from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+from /Library/Ruby/Site/2.0.0/rubygems/core_ext/kernel_require.rb:69:in `require'
+from /Library/Ruby/Gems/2.0.0/gems/bosh-registry-1.2962.0/bin/bosh-registry:3:in `<top (required)>'
+from /usr/bin/bosh-registry:23:in `load'
+from /usr/bin/bosh-registry:23:in `<main>'
+```
 
-slf4j package in stardog-node should be configured to use log4j
+In order to fix it, please follow [these](http://stackoverflow.com/questions/29627590/bosh-deploy-get-uninitialized-constant-fogawscredentialfetcher-nameerror/29638183#29638183) instructions.

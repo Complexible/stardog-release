@@ -19,3 +19,7 @@ stardog/stardog-4.0-RC1.zip:
   object_id: ec8bbd8e-50bd-4f34-81d8-c9fa8f3aef1f
   sha: 39bd271da0ed80d68edd2b526c27a7f69ee9eb04
   size: 69385530
+stardog/stardog-4.0-RC2.zip:
+  object_id: 0ba9d75f-b128-47bb-8715-26c37b0b0607
+  sha: 54e86dfabaa1afa678bdb43eee12cac45a0c2ad2
+  size: 69458379

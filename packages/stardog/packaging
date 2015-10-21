@@ -1,6 +1,6 @@
 set -e # exit immediately if a simple command exits with a non-zero status
 
-VERSION=4.0-RC1
+VERSION=4.0-RC2
 
 pushd $(mktemp -d -t stardog.XXXXXXXX) || exit 1
     unzip "${BOSH_COMPILE_TARGET}/stardog/stardog-${VERSION}.zip"
